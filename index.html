@@ -11,6 +11,14 @@
 <body>
 
     <style>
+        
+        .mainContainer {
+            /* width: 100vw; */
+            /* align-content: center; */
+            margin: auto;
+            /* vertical-align: middle; */
+        }
+
         .image {
             width: 10vw;
             height: 10vw;
@@ -21,11 +29,6 @@
             width: 70vw;
             display: flex;
             word-wrap: break-word;
-        }
-
-        .image1 {
-            background-image: url("images/image1.jpg");
-
         }
 
         #leftImages,
@@ -97,41 +100,40 @@
         }
     </style>
     <center>
-        <div class="container" id="topRow">
-            <!-- <img class="image" id="firstImage" src="images/image1.jpg">
-            <img class="image" src="images/image2.jpg">
-            <img class="image" src="images/image3.jpg">
-            <img class="image" src="images/image4.jpg">
-            <img class="image" src="images/image5.jpg">
-            <img class="image" src="images/image6.jpg">
-            <img class="image" src="images/image7.jpg"> -->
-        </div>
-        <div class="container">
-            <div id="leftImages">
-            </div>
-            <div>
+        <div class="mainContainer">
 
-                <p id="textdiv">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis, hic consectetur. Ea aliquam
-                    commodi, culpa, quis odit atque repellendus est expedita quo veniam dolorum, ratione molestias odio
-                    earum delectus necessitatibus?
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis, hic consectetur. Ea aliquam
-                    commodi, culpa, quis odit atque repellendus est expedita quo veniam dolorum, ratione molestias odio
-                    earum delectus necessitatibus?
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis, hic consectetur. Ea aliquam
-                    commodi, culpa, quis odit atque repellendus est expedita quo veniam dolorum, ratione molestias odio
-                    earum delectus necessitatibus?
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis, hic consectetur. Ea aliquam
-                    commodi, culpa, quis odit atque repellendus est expedita quo veniam dolorum, ratione molestias odio
-                    earum delectus necessitatibus?
-                </p>
+            <div class="container" id="topRow">
+                <!-- <img class="image" id="firstImage" src="images/image1.jpg">
+                <img class="image" src="images/image2.jpg">
+                <img class="image" src="images/image3.jpg">
+                <img class="image" src="images/image4.jpg">
+                <img class="image" src="images/image5.jpg">
+                <img class="image" src="images/image6.jpg">
+                <img class="image" src="images/image7.jpg"> -->
             </div>
-            <div id="rightImages">
-
-                <!-- <img class="image" src="images/image2.jpg"> -->
+            <div class="container">
+                <div id="leftImages">
+                </div>
+                <div class="textContainer">
+    
+                    <p id="textdiv">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis, hic consectetur. Ea aliquam
+                        commodi, culpa, quis odit atque repellendus est expedita quo veniam dolorum, ratione molestias odio
+                        earum delectus necessitatibus?
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis, hic consectetur. Ea aliquam
+                        commodi, culpa, quis odit atque repellendus est expedita quo veniam dolorum, ratione molestias odio
+                        earum delectus necessitatibus?
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis, hic consectetur. Ea aliquam
+                        commodi, culpa, quis odit atque repellendus est expedita
+                    </p>
+                </div>
+                <div id="rightImages">
+    
+                    <!-- <img class="image" src="images/image2.jpg"> -->
+                </div>
             </div>
-        </div>
-        <div class="container" id="bottomRow">
+            <div class="container" id="bottomRow">
+            </div>
         </div>
     </center>
 
@@ -207,7 +209,6 @@
         }
 
         function swapElements(first, second) {
-            console.log("SWAPPED");
             if ($(first).next()[0] == second) {
                 // console.log(1);
                 $(first).insertAfter($(second));
@@ -220,20 +221,18 @@
 
         function doSwap(elem, slideDirection) { // direction 1 for left right, 2 for top down
             var selectElement = Math.floor((Math.random() * 100) % (elem.children().length - 1));
-            // selectElement = 1;
             var singleImageHeight = singleImage.height();
             var first = $(elem.children()[selectElement]);
             var second = $(elem.children()[selectElement + 1]);
-            
             // swapElements(elem.children()[selectElement], elem.children()[selectElement + 1]);
             if (slideDirection == 1) {
-                second.animate({ "right": "+="+singleImageHeight }, {
+                second.animate({ "right": "+=" + singleImageHeight }, {
                     duration: 1000,
                     complete: function () {
-                        second.css("right","");
+                        second.css("right", "");
                     }
                 });
-                first.animate({ "left": "+="+singleImageHeight }, {
+                first.animate({ "left": "+=" + singleImageHeight }, {
                     duration: 1000,
                     complete: function () {
                         first.css("left", "");
@@ -241,16 +240,16 @@
                     }
                 });
             } else {
-                second.animate({ "bottom": "+="+singleImageHeight }, {
+                second.animate({ "bottom": "+=" + singleImageHeight }, {
                     duration: 1000,
                     complete: function () {
-                        second.css("bottom","");
+                        second.css("bottom", "");
                     }
                 });
-                first.animate({ "top": "+="+singleImageHeight }, {
+                first.animate({ "top": "+=" + singleImageHeight }, {
                     duration: 1000,
                     complete: function () {
-                        first.css("top","");
+                        first.css("top", "");
                         swapElements(elem.children()[selectElement], elem.children()[selectElement + 1]);
                     }
                 });
@@ -259,7 +258,10 @@
         }
         function animationStarter() {
             var selected = Math.floor(Math.random() * 100 % 4) + 1;
-            // selected =3;
+
+            if (leftImages.children().length <= 1) {
+                selected = Math.floor(Math.random() * 100 % 2) + 3;
+            }
             if (selected == 1) {
                 doSwap($("#leftImages"), 2);
             } else if (selected == 2) {
@@ -270,8 +272,8 @@
                 doSwap($("#topRow"), 1);
             }
         }
-        function initEverything(){
-            for(var i =0;i<7;i++){
+        function initEverything() {
+            for (var i = 0; i < 7; i++) {
                 topRow.append(randomImageTag());
                 bottomRow.append(randomImageTag());
             }
@@ -279,15 +281,23 @@
             rightImages.append(randomImageTag());
 
             singleImage = $(".image").first();
-            setInterval( animationStarter, 3000 );
+            setInterval(animationStarter, 3000);
             balanceLeftAndRightColumns();
         }
 
         window.addEventListener('resize', () => {
             balanceLeftAndRightColumns();
-            console.log(randomImageTag());
         });
-
+        // textDiv.on("change", ()=>{ console.log("CHANGED1"); });
+        // textDiv.on("onkeydown", ()=>{ console.log("CHANGED2"); });
+        // textDiv.on("onkeyup", ()=>{ console.log("CHANGED3"); });
+        // textDiv.on("onkeypress", ()=>{ console.log("CHANGED4"); });
+        // textDiv.on("onselect", ()=>{ console.log("CHANGED5"); });
+        // textDiv.on("onfocus", ()=>{ console.log("CHANGED6"); });
+        textDiv.on("click", () => { balanceLeftAndRightColumns(); });
+        textDiv.parent().on("click", () => { balanceLeftAndRightColumns(); });
+        textDiv.parentsUntil("html").on("click", () => { balanceLeftAndRightColumns(); });
+        // document.on("click", ()=>{ balanceLeftAndRightColumns(); });
 
         window.onload = initEverything;
 
