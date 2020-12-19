@@ -14,6 +14,7 @@
         .image {
             width: 10vw;
             height: 10vw;
+            position: relative;
         }
 
         .container {
@@ -48,10 +49,56 @@
             display: flex;
             flex-wrap: wrap;
         }
+
+        @keyframes goRight {
+            from {
+                left: 0;
+            }
+
+            to {
+                left: 10vw;
+            }
+        }
+
+        @keyframes goLeft {
+            from {
+                right: 0;
+            }
+
+            to {
+                right: 10vw;
+            }
+        }
+
+        @keyframes goLeft {
+            from {
+                right: 0;
+            }
+
+            to {
+                right: 10vw;
+            }
+        }
+
+        @keyframes goLeft {
+            from {
+                right: 0;
+            }
+
+            to {
+                right: 10vw;
+            }
+        }
+
+        #firstImage {
+            /* position: absolute; */
+            /* animation-name: goLeft;
+            animation-duration: 1000ms; */
+        }
     </style>
     <center>
-        <div class="container">
-            <img class="image" src="images/image1.jpg">
+        <div class="container" id="topRow">
+            <img class="image" id="firstImage" src="images/image1.jpg">
             <img class="image" src="images/image2.jpg">
             <img class="image" src="images/image3.jpg">
             <img class="image" src="images/image4.jpg">
@@ -85,7 +132,7 @@
                 <img class="image rightimage" src="images/image2.jpg">
             </div>
         </div>
-        <div class="container">
+        <div class="container" id="bottomRow">
             <img class="image" src="images/image1.jpg">
             <img class="image" src="images/image2.jpg">
             <img class="image" src="images/image3.jpg">
@@ -101,7 +148,7 @@
         var leftImages = $("#leftImages");
         var rightImages = $("#rightImages");
         var singleImage = $(".image").first();
-
+        var firstImage = $("#firstImage");
         function randeomImageString() {
             var number = Math.floor(((Math.random() * 100) % 12) + 1);
             return "images/image" + number + ".jpg";
@@ -139,6 +186,7 @@
             }
         }
 
+
         function changeLeftAndRightImageColumnsAppropriatly() {
             var singleImageHeight = singleImage.height();
             var leftChildren = leftImages.children().length;
@@ -162,6 +210,77 @@
                 appendToRightImages(numberToAppend);
             }
         }
+
+        function swapElements(first, second) {
+            console.log("SWAPPED");
+            if ($(first).next()[0] == second) {
+                // console.log(1);
+                $(first).insertAfter($(second));
+            } else if ($(first).prev()[0] == second) {
+                // console.log(2);
+                $(first).insertBefore($(second));
+            }
+        }
+        var topRow = $("#topRow");
+        // animateSomething();
+
+        var ff = null;
+        var ss = null;
+        function doSwap(elem, slideDirection) { // direction 1 for left right, 2 for top down
+            var selectElement = Math.floor((Math.random() * 100) % (elem.children().length - 1));
+
+            var singleImageHeight = singleImage.height();
+            var first = $(elem.children()[selectElement]);
+            var second = $(elem.children()[selectElement + 1]);
+            ff = first;
+            ss = second;
+            console.log(singleImageHeight);
+            
+            // swapElements(elem.children()[selectElement], elem.children()[selectElement + 1]);
+            if (slideDirection == 1) {
+                second.animate({ "right": singleImageHeight }, {
+                    duration: 1000,
+                    complete: function () {
+                        second.css("right",0);
+                    }
+                });
+                first.animate({ "left": singleImageHeight }, {
+                    duration: 1000,
+                    complete: function () {
+                        first.css("left",0);
+                        swapElements(elem.children()[selectElement], elem.children()[selectElement + 1]);
+                    }
+                });
+            } else {
+                second.animate({ "bottom": singleImageHeight }, {
+                    duration: 1000,
+                    complete: function () {
+                        second.css("bottom",0);
+                    }
+                });
+                first.animate({ "top": singleImageHeight }, {
+                    duration: 1000,
+                    complete: function () {
+                        first.css("top",0);
+                        swapElements(elem.children()[selectElement], elem.children()[selectElement + 1]);
+                    }
+                });
+
+            }
+        }
+        function animateSomething() {
+            var selected = Math.floor(Math.random() * 100 % 4) + 1;
+            if (selected == 1) {
+                doSwap($("#leftImages"), 2);
+            } else if (selected == 2) {
+                doSwap($("#rightImages"), 2);
+            } else if (selected == 3) {
+                doSwap($("#bottomRow"), 1);
+            } else {
+                doSwap($("#topRow"), 1);
+            }
+        }
+        setInterval( animateSomething, 1000 );
         window.addEventListener('resize', () => {
 
             changeLeftAndRightImageColumnsAppropriatly();
