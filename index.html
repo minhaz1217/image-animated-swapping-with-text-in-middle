@@ -98,17 +98,16 @@
     </style>
     <center>
         <div class="container" id="topRow">
-            <img class="image" id="firstImage" src="images/image1.jpg">
+            <!-- <img class="image" id="firstImage" src="images/image1.jpg">
             <img class="image" src="images/image2.jpg">
             <img class="image" src="images/image3.jpg">
             <img class="image" src="images/image4.jpg">
             <img class="image" src="images/image5.jpg">
             <img class="image" src="images/image6.jpg">
-            <img class="image" src="images/image7.jpg">
+            <img class="image" src="images/image7.jpg"> -->
         </div>
         <div class="container">
             <div id="leftImages">
-                <img class="image leftimage" src="images/image1.jpg">
             </div>
             <div>
 
@@ -129,17 +128,10 @@
             </div>
             <div id="rightImages">
 
-                <img class="image rightimage" src="images/image2.jpg">
+                <!-- <img class="image" src="images/image2.jpg"> -->
             </div>
         </div>
         <div class="container" id="bottomRow">
-            <img class="image" src="images/image1.jpg">
-            <img class="image" src="images/image2.jpg">
-            <img class="image" src="images/image3.jpg">
-            <img class="image" src="images/image4.jpg">
-            <img class="image" src="images/image5.jpg">
-            <img class="image" src="images/image6.jpg">
-            <img class="image" src="images/image7.jpg">
         </div>
     </center>
 
@@ -148,7 +140,10 @@
         var leftImages = $("#leftImages");
         var rightImages = $("#rightImages");
         var singleImage = $(".image").first();
-        var firstImage = $("#firstImage");
+        var topRow = $("#topRow");
+        var bottomRow = $("#bottomRow");
+
+
         function randeomImageString() {
             var number = Math.floor(((Math.random() * 100) % 12) + 1);
             return "images/image" + number + ".jpg";
@@ -171,13 +166,6 @@
                 rightImages.append(randomImageTag());
             }
         }
-        function removeFromRightImages(n) {
-            for (var i = 0; i < n; i++) {
-                if (rightImages.children().length > 1) {
-                    rightImages.children().last().remove();
-                }
-            }
-        }
         function removeFromLeftImages(n) {
             for (var i = 0; i < n; i++) {
                 if (leftImages.children().length > 1) {
@@ -185,9 +173,16 @@
                 }
             }
         }
+        function removeFromRightImages(n) {
+            for (var i = 0; i < n; i++) {
+                if (rightImages.children().length > 1) {
+                    rightImages.children().last().remove();
+                }
+            }
+        }
 
 
-        function changeLeftAndRightImageColumnsAppropriatly() {
+        function balanceLeftAndRightColumns() {
             var singleImageHeight = singleImage.height();
             var leftChildren = leftImages.children().length;
             var rightChildren = rightImages.children().length
@@ -221,55 +216,50 @@
                 $(first).insertBefore($(second));
             }
         }
-        var topRow = $("#topRow");
         // animateSomething();
 
-        var ff = null;
-        var ss = null;
         function doSwap(elem, slideDirection) { // direction 1 for left right, 2 for top down
             var selectElement = Math.floor((Math.random() * 100) % (elem.children().length - 1));
-
+            // selectElement = 1;
             var singleImageHeight = singleImage.height();
             var first = $(elem.children()[selectElement]);
             var second = $(elem.children()[selectElement + 1]);
-            ff = first;
-            ss = second;
-            console.log(singleImageHeight);
             
             // swapElements(elem.children()[selectElement], elem.children()[selectElement + 1]);
             if (slideDirection == 1) {
-                second.animate({ "right": singleImageHeight }, {
+                second.animate({ "right": "+="+singleImageHeight }, {
                     duration: 1000,
                     complete: function () {
-                        second.css("right",0);
+                        second.css("right","");
                     }
                 });
-                first.animate({ "left": singleImageHeight }, {
+                first.animate({ "left": "+="+singleImageHeight }, {
                     duration: 1000,
                     complete: function () {
-                        first.css("left",0);
+                        first.css("left", "");
                         swapElements(elem.children()[selectElement], elem.children()[selectElement + 1]);
                     }
                 });
             } else {
-                second.animate({ "bottom": singleImageHeight }, {
+                second.animate({ "bottom": "+="+singleImageHeight }, {
                     duration: 1000,
                     complete: function () {
-                        second.css("bottom",0);
+                        second.css("bottom","");
                     }
                 });
-                first.animate({ "top": singleImageHeight }, {
+                first.animate({ "top": "+="+singleImageHeight }, {
                     duration: 1000,
                     complete: function () {
-                        first.css("top",0);
+                        first.css("top","");
                         swapElements(elem.children()[selectElement], elem.children()[selectElement + 1]);
                     }
                 });
 
             }
         }
-        function animateSomething() {
+        function animationStarter() {
             var selected = Math.floor(Math.random() * 100 % 4) + 1;
+            // selected =3;
             if (selected == 1) {
                 doSwap($("#leftImages"), 2);
             } else if (selected == 2) {
@@ -280,15 +270,26 @@
                 doSwap($("#topRow"), 1);
             }
         }
-        setInterval( animateSomething, 1000 );
-        window.addEventListener('resize', () => {
+        function initEverything(){
+            for(var i =0;i<7;i++){
+                topRow.append(randomImageTag());
+                bottomRow.append(randomImageTag());
+            }
+            leftImages.append(randomImageTag());
+            rightImages.append(randomImageTag());
 
-            changeLeftAndRightImageColumnsAppropriatly();
-            console.log("height ", window.innerHeight, "Width: ", window.innerWidth);
-            console.log("T Height ", textDiv.height(), "Width: ", textDiv.width());
+            singleImage = $(".image").first();
+            setInterval( animationStarter, 3000 );
+            balanceLeftAndRightColumns();
+        }
+
+        window.addEventListener('resize', () => {
+            balanceLeftAndRightColumns();
             console.log(randomImageTag());
         });
-        window.onload = changeLeftAndRightImageColumnsAppropriatly;
+
+
+        window.onload = initEverything;
 
         textDiv.on("change", (e) => {
             console.log("CHANGEDD");
