@@ -7,12 +7,15 @@ jobs:
         name: Build
         runs-on: ubuntu-latest
         steps:
-        - name: executing remote ssh commands using password
-          uses: appleboy/ssh-action@master
-          with:
-            host: ${{ secrets.HOST }}
-            username: ${{ secrets.USERNAME }}
-            password: ${{ secrets.PASSWORD }}
-            port: ${{ secrets.PORT }}
+        - uses: actions/checkout@v1
+
+        - name: Copy repository contents via scp
+          uses: appleboy/scp-action@master
+          env:
+            HOST: ${{ secrets.HOST }}
+            USERNAME: ${{ secrets.USERNAME }}
+            PORT: ${{ secrets.PORT }}
             KEY: ${{ secrets.SSHKEYSSHKEY }}
-            script: ls
+          with:
+            source: "."
+            target: "/var/www/animated-images"
