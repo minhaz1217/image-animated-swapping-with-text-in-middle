@@ -18,4 +18,4 @@ jobs:
             KEY: ${{ secrets.SSHKEYSSHKEY }}
           with:
             source: "."
-            target: "/var/www/animated-images"
+            target: "/var/www/html/animated-images"
