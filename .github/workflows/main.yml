@@ -18,6 +18,7 @@ jobs:
             port: ${{ secrets.PORT }}
             script: |
               cd ~/github-action
+              rm -rf image-animated-swapping-with-text-in-middle
               git clone https://github.com/minhaz1217/image-animated-swapping-with-text-in-middle.git
               cd image-animated-swapping-with-text-in-middle
               sudo docker build -t ia-image-animated-swapping-with-text-in-middle . <<< "${{ secrets.MYSUCCESS }}"
