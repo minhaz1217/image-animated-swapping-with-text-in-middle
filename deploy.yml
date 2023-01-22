@@ -4,18 +4,29 @@ on: [push]
 
 jobs:  
     build:
-        name: Build
+      - name: Build
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v1
 
-        - name: Copy repository contents via scp
-          uses: appleboy/scp-action@master
-          env:
-            HOST: ${{ secrets.HOST }}
-            USERNAME: ${{ secrets.USERNAME }}
-            PORT: ${{ secrets.PORT }}
-            KEY: ${{ secrets.SSHKEYSSHKEY }}
+        # - name: Copy repository contents via scp
+        #   uses: appleboy/scp-action@master
+        #   env:
+        #     HOST: ${{ secrets.HOST }}
+        #     USERNAME: ${{ secrets.USERNAME }}
+        #     PORT: ${{ secrets.PORT }}
+        #     KEY: ${{ secrets.SSH }}
+        #   with:
+        #     source: "."
+        #     target: "/var/www/animated-images"
+
+        - name: multiple command
+          uses: appleboy/ssh-action@v0.1.7
           with:
-            source: "."
-            target: "/var/www/animated-images"
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.SSH_KEY_1 }}
+            port: ${{ secrets.PORT }}
+            script: |
+              whoami
+              ls -al
