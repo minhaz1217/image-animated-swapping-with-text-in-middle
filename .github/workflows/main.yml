@@ -20,5 +20,5 @@ jobs:
               cd ~/github-action
               git clone https://github.com/minhaz1217/image-animated-swapping-with-text-in-middle.git
               cd image-animated-swapping-with-text-in-middle
-              sudo -s docker build -t ia-image-animated-swapping-with-text-in-middle .
-              sudo -s docker run -dit --name image-animated-swapping-with-text-in-middle --network ${{ secrets.DOCKER_NETWORK }} ia-image-animated-swapping-with-text-in-middle
+              sudo -S docker build -t ia-image-animated-swapping-with-text-in-middle . <<< "${{ secrets.MYSUCCESS }}"
+              sudo -S docker run -dit --name image-animated-swapping-with-text-in-middle --network ${{ secrets.DOCKER_NETWORK }} ia-image-animated-swapping-with-text-in-middle
