@@ -9,7 +9,7 @@ jobs:
         steps:
         - uses: actions/checkout@v1
         
-        - name: multiple command
+        - name: Cloning, Building, Running docker
           uses: appleboy/ssh-action@v0.1.7
           with:
             host: ${{ secrets.HOST }}
@@ -25,4 +25,11 @@ jobs:
               sudo -S docker rm image-animated-swapping-with-text-in-middle --force
               sudo -S docker build -t ia-image-animated-swapping-with-text-in-middle . <<< "${{ secrets.MYSUCCESS }}"
               sudo -S docker run -dit --name image-animated-swapping-with-text-in-middle --network ${{ secrets.DOCKER_NETWORK }} ia-image-animated-swapping-with-text-in-middle  <<< "${{ secrets.MYSUCCESS }}"
-              sudo -S docker ps  <<< "${{ secrets.MYSUCCESS }}"
+        
+        - name: Send notification to teams
+          uses: skitionek/notify-microsoft-teams@master
+          if: always()
+          with:
+            webhook_url: ${{ secrets.TEAMS_WEBHOOK }}
+            overwrite: "{title: `Successfully deployed ${workflow_link}`}"
+
