@@ -20,7 +20,7 @@ jobs:
         #     source: "."
         #     target: "/var/www/animated-images"
 
-        - name: multiple command
+        - name: SSH into machine and clone repo.
           uses: appleboy/ssh-action@v0.1.7
           with:
             host: ${{ secrets.HOST }}
@@ -28,5 +28,5 @@ jobs:
             key: ${{ secrets.SSH_KEY_1 }}
             port: ${{ secrets.PORT }}
             script: |
-              whoami
-              ls -al
+              cd ~/github-action
+              git clone https://github.com/minhaz1217/image-animated-swapping-with-text-in-middle.git
